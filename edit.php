@@ -8,33 +8,44 @@ $is_file = 0;
 $filetype = 0;
 $displaytext = "";
 $size = 1;
+$txt = "";
 $rootpath = $_SERVER['DOCUMENT_ROOT'];
-// removes slash from end of rootpath
-$rootarray = str_split($rootpath);
-array_pop($rootarray);
-$rootpath = implode("",$rootarray);
 
-if (isset($_POST['textarea'])){
-    echo $_POST['textarea'];
+// write update
+// test and transfer post variables
+if (isset($_POST['path'])){
+    $path = $_POST['path'];
 }
+if (isset($_POST['file'])) {   
+    $file = $_POST['file'];
+}
+
+function update_file($writepath,$txt) {
+    $myfile = fopen($writepath, "w") or die("Unable to open file!");
+    fwrite($myfile, $txt);
+    fclose($myfile);
+}
+//
+if (isset($_POST['textarea'])) {
+    $txt = $_POST['textarea'];
+    }
+$writepath = $rootpath.$path."/".$file;    
+if($txt != "") {
+  update_file($writepath, $txt);  
+}
+
 $ext = "";
 $extensions = array("html", "xhtml", "shtml", "css", "php", "js", "txt", "xml", "jpg", "jpeg", "gif", "png", "pdf", "svg");
  
 $txtextensions = array("html","xhtml","shtml","css","php","js","txt","xml");
 $imgextensions = array("jpg","jpeg","gif","png","svg");
 
-
-// transfer post variables
 if (isset($_GET['path'])){
     $path = $_GET['path'];
 }
 if (isset($_GET['file'])) {   
     $file = $_GET['file'];
 }
-// testing
-//echo "<br>in path: ".$path;
-//echo "<br>in file: ".$file;
-//echo "<br>rootpath: ".$rootpath;
 
 if (is_file($rootpath.$path."/".$file)){
    $is_file = 1;
@@ -241,23 +252,21 @@ textarea {
 </head>
 <body>
 <div class="container">
-<?php // echo "scanpath: ".$scanpath; ?>
-<?php // echo "<br>path: ".$path; ?>
-<?php // echo "<br>file: ".$file; ?>
 <div class="banner w3-flat-clouds">
 <h1 class="w3-text-white">we&b</h1>
 <h2 class="w3-text-white">web editor and browser</h2>
 </div>
 <div class="w3-medium row" id="currentpath">
-<div class="info w3-left"><?php echo "selected path: ".$rootpath.$path."/".$file ?></div>
+<div class="info w3-left"><?php echo "selected path: ".$path."/".$file; ?></div>
 </div>
 </div>
 <div class="clearfix"></div>
 <div class="container">
 <div class="w3-col m9 w3-flat-clouds my-column">
 <!-- display area -->
-<form action="write_file.php" method="post" >
-<input type="hidden" name="writepath" value="<?php echo $rootpath.$path."/".$file; ?>" >
+<form action="edit.php" method="post" >
+<input type="hidden" name="path" value="<?php echo $path; ?>" >
+<input type="hidden" name="file" value="<?php echo $file; ?>" >
 <?php 
 if ($is_file == 1 && $filetype == 1) {
     $displaytext = file_get_contents($rootpath.$path."/".$file);
@@ -270,7 +279,6 @@ if($filetype == 1 || $filetype == 0) {
     echo htmlentities($displaytext); 
     echo "</textarea>";
     }
-//
 $image = $path.'/'.$file;
 if($filetype == 2) {
     echo "<div class='image-window'>";
