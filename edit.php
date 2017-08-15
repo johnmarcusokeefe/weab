@@ -38,7 +38,7 @@ $ext = "";
 $extensions = array("html", "xhtml", "shtml", "css", "php", "js", "txt", "xml", "jpg", "jpeg", "gif", "png", "pdf", "svg");
  
 $txtextensions = array("html","xhtml","shtml","css","php","js","txt","xml");
-$imgextensions = array("jpg","jpeg","gif","png","svg");
+$imgextensions = array("jpg","jpeg","gif","png","svg","eps");
 
 if (isset($_GET['path'])){
     $path = $_GET['path'];
@@ -257,7 +257,15 @@ textarea {
 <h2 class="w3-text-white">web editor and browser</h2>
 </div>
 <div class="w3-medium row" id="currentpath">
-<div class="info w3-left"><?php echo "selected path: ".$path."/".$file; ?></div>
+<?php
+if($file != "") {
+    $slash = "/";
+}
+else {
+    $slash = "";
+}
+?>
+<div class="info w3-left"><?php echo "selected path: ".$path.$slash.$file; ?></div>
 </div>
 </div>
 <div class="clearfix"></div>
