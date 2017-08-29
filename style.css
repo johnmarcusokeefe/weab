@@ -88,6 +88,12 @@ body {
 .fa-home {
     margin-right: 1em !important;
 }
+.fa-floppy-o{
+    
+}
+.fa-eye {
+    margin-right: 1em !important;
+}
 #file-browser {
     position: relative;
     padding-left: 1em;
@@ -163,4 +169,17 @@ textarea {
 }
 .browser-label {
     border-bottom: 1px solid lightgray;
+}
+.lightgray {
+    background: lightgray;
+}
+button {
+    border: none !important;
+    color: white;
+    width: 25px;
+    margin-right: 1.2em;
+    padding: 0;
+}
+button:hover {
+    opacity: 0.5;
 }
